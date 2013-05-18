@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'cucumber'
 gem 'vagrant-prison'
+gem 'vagrant-sync'
 gem 'puppetlabs_spec_helper'
 gem 'redis'
 
