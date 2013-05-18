@@ -1,0 +1,5 @@
+fixtures:
+  symlinks:
+    redis: "#{source_dir}"
+    # XXX: move this up to the repositories section where it belongs
+    epel: "#{source_dir}/../../../puppet/librarian/epel"

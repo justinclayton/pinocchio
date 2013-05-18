@@ -1,0 +1,16 @@
+redis
+
+This module installs redis from EPEL and manages the service, providing a very simple config.
+
+License
+-------
+# XXX: finalize
+MIT (placeholder?)
+
+Contact
+-------
+Justin Clayton
+
+Support
+-------
+None!
