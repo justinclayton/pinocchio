@@ -17,11 +17,10 @@ module Pinocchio
         host_port  = guest_port + 1000
         config.vm.forward_port guest_port, host_port
       end
-      Pinocchio.boxes.each do |box_name|
-        config.vm.define box_name.to_sym, :primary => true do |c|
-          c.vm.box = box_name
-          ## XXX: box hash or class to manage urls?
-          c.vm.box_url = File.expand_path("~/vagrant/boxes/#{box_name}.box")
+      Pinocchio.boxes.each do |box_name, box_url|
+        config.vm.define box_name.to_sym do |c|
+          c.vm.box     = box_name
+          c.vm.box_url = box_url
           c.vm.provision :puppet do |puppet|
             puppet.module_path    = 'modules'
             puppet.manifests_path = Pinocchio.manifests_path
@@ -42,7 +41,6 @@ module Pinocchio
     FileUtils.touch File.join(Pinocchio.manifests_path, Pinocchio.manifest_file)
     FileUtils.mkdir_p Pinocchio.vagrant_prison_module_dir
     Vagrant::Command::Up.new([box_name, '--no-provision'], @vagrant.construct(:ui_class => Vagrant::UI::Basic)).execute
-    # p @vagrant.construct.config.cwd
     Pinocchio.sync_module_fixtures
   end
 
@@ -59,7 +57,6 @@ module Pinocchio
     ## XXX: assumes constant of relative path 'modules' in vagrant config; support others
 
     # module_path = @vagrant.construct.config.global.vm.provisioners.first.config.module_path.to_s
-    p dest_dir = vagrant_prison_module_dir
     FileUtils.cp_r(source_files, dest_dir)
   end
 end

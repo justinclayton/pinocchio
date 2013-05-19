@@ -1,13 +1,7 @@
 # pinocchio/api/config
+require 'yaml'
+
 module Pinocchio
-  # by default, vagrant looks in your spec/fixtures set up by puppetlabs_spec_helper
-  MODULE_PATH            = File.join(Dir.pwd, 'spec', 'fixtures', 'modules')
-  MANIFESTS_PATH         = File.join(Dir.pwd, 'spec', 'fixtures', 'manifests')
-  MANIFEST_FILE          = 'pinocchio.pp'
-  TIMEOUT_SECONDS        = 300
-  ## XXX: write code to allow for array here
-  BOXES                  = nil
-  EXPOSED_PORTS          = nil
 
   def self.module_path
     @module_path or MODULE_PATH
@@ -55,6 +49,11 @@ module Pinocchio
 
   def self.exposed_ports=(value)
     @exposed_ports = value or EXPOSED_PORTS
+  end
+
+  def self.import_boxes
+    boxes_yaml = File.join(File.expand_path '../../../../boxes.yaml', __FILE__)
+    return YAML.load_file(boxes_yaml)['boxes']
   end
 
 end
