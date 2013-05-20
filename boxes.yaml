@@ -1,4 +1,4 @@
 ---
 boxes:
-  centos6: 'https://s3.amazonaws.com/justinclayton-pinocchio/boxes/centos6.box'
+  centos6: 'https://pinocchio-west.s3.amazonaws.com/boxes/centos64.box'
   # ubuntu12: 'https://s3.amazonaws.com/justinclayton-pinocchio/boxes/ubuntu12.box'
