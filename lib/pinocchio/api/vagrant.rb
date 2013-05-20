@@ -1,4 +1,6 @@
 # pinocchio/api/vagrant
+require 'vagrant/prison'
+
 module Pinocchio
   def self.assign_test_manifest test_manifest
     source_dir = test_manifest

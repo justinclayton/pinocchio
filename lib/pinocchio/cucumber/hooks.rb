@@ -1,10 +1,5 @@
-# # pinocchio/cucumber/hooks
-# World(Pinocchio)
+# pinocchio/cucumber/hooks
 
-# Before do
-#   Pinocchio.before
-# end
-
-# After do
-#   Pinocchio.after
-# end
+Before do
+  Pinocchio.vagrant_init
+end
