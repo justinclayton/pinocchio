@@ -55,8 +55,7 @@ module Pinocchio
     ## instead, we copy what we need into the vagrant prison's dir.
     source_files = Dir.glob(File.join(Pinocchio.module_path, '*'))
     ## XXX: assumes constant of relative path 'modules' in vagrant config; support others
-
-    # module_path = @vagrant.construct.config.global.vm.provisioners.first.config.module_path.to_s
+    dest_dir = Pinocchio.vagrant_prison_module_dir
     FileUtils.cp_r(source_files, dest_dir)
   end
 end
