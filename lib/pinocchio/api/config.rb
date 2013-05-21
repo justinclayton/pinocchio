@@ -3,6 +3,14 @@ require 'yaml'
 
 module Pinocchio
 
+  def self.vagrant_home
+    @vagrant_home or VAGRANT_HOME
+  end
+
+  def self.vagrant_home=(value)
+    @vagrant_home = value or VAGRANT_HOME
+  end
+
   def self.module_path
     @module_path or MODULE_PATH
   end
