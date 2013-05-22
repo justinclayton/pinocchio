@@ -2,6 +2,13 @@
 require 'vagrant/prison'
 
 module Pinocchio
+
+  # def self.vagrant_home_init
+  #   # set $VAGRANT_HOME and ensure it exists
+    ENV['VAGRANT_HOME'] = Pinocchio.vagrant_home
+
+  # end
+
   def self.assign_test_manifest test_manifest
     source_dir = test_manifest
     dest_dir   = File.join(Pinocchio.manifests_path, Pinocchio.manifest_file)
@@ -23,6 +30,8 @@ module Pinocchio
         config.vm.define box_name.to_sym do |c|
           c.vm.box     = box_name
           c.vm.box_url = box_url
+          # host firewalls NOPE NOPE NOPE
+          c.vm.provision :shell, :inline => 'iptables -F'
           c.vm.provision :puppet do |puppet|
             puppet.module_path    = 'modules'
             puppet.manifests_path = Pinocchio.manifests_path

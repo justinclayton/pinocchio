@@ -59,9 +59,4 @@ module Pinocchio
     @exposed_ports = value or EXPOSED_PORTS
   end
 
-  def self.import_boxes
-    boxes_yaml = File.join(File.expand_path '../../../../boxes.yaml', __FILE__)
-    return YAML.load_file(boxes_yaml)['boxes']
-  end
-
 end

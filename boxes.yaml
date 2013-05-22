@@ -1,4 +1,10 @@
 ---
 boxes:
-  centos6: 'https://pinocchio-west.s3.amazonaws.com/boxes/centos64.box'
-  # ubuntu12: 'https://s3.amazonaws.com/justinclayton-pinocchio/boxes/ubuntu12.box'
+  centos5:  'http://puppet-vagrant-boxes.puppetlabs.com/centos-59-x64-vbox4210.box'
+  centos6:  'http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210.box'
+  debian6:  'http://puppet-vagrant-boxes.puppetlabs.com/debian-607-x64-vbox4210.box'
+  debian7:  'http://puppet-vagrant-boxes.puppetlabs.com/debian-70rc1-x64-vbox4210.box'
+  fedora18: 'http://puppet-vagrant-boxes.puppetlabs.com/fedora-18-x64-vbox4210.box'
+  sles11:   'http://puppet-vagrant-boxes.puppetlabs.com/sles-11sp1-x64-vbox4210.box'
+  ubuntu10: 'http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-10044-x64-vbox4210.box'
+  ubuntu12: 'http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210.box'
