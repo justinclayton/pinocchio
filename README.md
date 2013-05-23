@@ -28,7 +28,9 @@ And this to your module's `features/support/env.rb`:
 	
 If you will be testing network connections, you will need to specify what ports to expose to your machine in your `env.rb` as well, like this:
 
-	Pinocchio.exposed_ports = ['80', '443']
+	Pinocchio.config do |config|
+	  config.exposed_ports = ['80', '443']
+	end
 
 Look at the provided test puppet module for a complete example of usage.
 
@@ -39,7 +41,7 @@ Pinocchio is a stupid wooden puppet, and therefore makes many assumptions about 
 
 - He assumes you already do spec tests using the `puppetlabs_spec_helper` gem, as he relies on `.fixtures.yml` to understand your module's dependencies. This may change in the future.
 
-- He doesn't like sharing, so when he downloads and uses Vagrant boxes, they don't go in `$VAGRANT_HOME` (aka `~/.vagrant.d`), but instead in `~/.pinocchio/vagrant_home`. This can be overridden by assigning a new value to `Pinocchio.vagrant_home` somewhere in your `env.rb`.
+- He doesn't like sharing, so when he downloads and uses Vagrant boxes, they don't go in `$VAGRANT_HOME` (aka `~/.vagrant.d`), but instead in `~/.pinocchio/vagrant_home`. You can override `vagrant_home` and many other config elements inside of the `Pinocchio.config` block.
 
 - He assumes you like cucumbers. That's why he brought you all these cucumbers. He just wants you to love him!
 
