@@ -19,7 +19,9 @@ module Pinocchio
       ## this is what gets passed to vagrant, not where the actual modules are. don't change this.
       @vagrant_module_path = 'modules'
 
-      @vagrant_env = Vagrant::Prison.new
+      puts "DESTROY VM ON TEST FAIL? SET TO #{@config.destroy_vm_on_test_fail}"
+
+      @vagrant_env = Vagrant::Prison.new(nil, @config.destroy_vm_on_test_fail)
 
       @vagrant_env.configure do |vagrant|
         vagrant.vm.host_name = 'puppet.pinocchio.test'
