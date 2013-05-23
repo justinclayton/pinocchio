@@ -1,5 +1,5 @@
 # pinocchio/cucumber/hooks
 
 Before do
-  Pinocchio.vagrant_init
+  @pinocchio = Pinocchio.init
 end

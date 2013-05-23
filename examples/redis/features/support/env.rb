@@ -1,4 +1,7 @@
 require 'cucumber/rspec/doubles'
+require 'pinocchio'
 require 'pinocchio/cucumber'
 
-Pinocchio.exposed_ports = ['6379']
+Pinocchio.config do |p|
+  p.exposed_ports = ['6379']
+end
