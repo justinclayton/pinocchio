@@ -8,6 +8,8 @@ module Pinocchio
     attr_accessor :vagrant_env
     attr_reader   :vagrant_module_path
 
+    VAGRANT_MODULE_PATH = 'modules'
+
     def initialize(box_name, config)
       @config = config
       # check that box_name is a valid one
@@ -17,11 +19,10 @@ module Pinocchio
         raise "#{box_name} is not a valid box name. Valid names are #{self.config.boxes.keys.to_s}"
       end
       ## this is what gets passed to vagrant, not where the actual modules are. don't change this.
-      @vagrant_module_path = 'modules'
+      @vagrant_module_path ||= VAGRANT_MODULE_PATH
 
-      puts "DESTROY VM ON TEST FAIL? SET TO #{@config.destroy_vm_on_test_fail}"
-
-      @vagrant_env = Vagrant::Prison.new(nil, @config.destroy_vm_on_test_fail)
+      # the false here means don't cleanup on exit
+      @vagrant_env = Vagrant::Prison.new(nil, false)
 
       @vagrant_env.configure do |vagrant|
         vagrant.vm.host_name = 'puppet.pinocchio.test'
@@ -63,6 +64,13 @@ module Pinocchio
       Vagrant::Command::Provision.new([], @vagrant_env.construct(:ui_class => Vagrant::UI::Basic)).execute
     end
 
+    def exec_ssh
+      ## since the vagrant ssh command runs an exec, we need to keep track
+      ## of the machine name to allow for future cleanup.
+      add_to_orphaned_list
+      Vagrant::Command::SSH.new([], @vagrant_env.construct(:ui_class => Vagrant::UI::Basic)).execute
+    end
+
     private
 
     def vagrant_prison_module_dir
@@ -85,6 +93,12 @@ module Pinocchio
       source_dir = manifest
       dest_dir   = File.join(@config.manifests_path, @config.manifest_file)
       FileUtils.copy_file(source_dir, dest_dir)
+    end
+
+    def add_to_orphaned_list
+      uuid = @vagrant_env.env.vms[:default].uuid
+      filename = File.join(@config.pinocchio_home, 'orphaned')
+      File.open(filename, 'a') { |f| f.puts uuid }
     end
 
   end
