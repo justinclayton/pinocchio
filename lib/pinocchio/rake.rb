@@ -11,7 +11,7 @@ task :features do
 end
 
 task :features_standalone do
-  sh 'cucumber features/*.feature'
+  sh 'cucumber --expand features/*.feature'
 end
 
 ## XXX: get this out of rake
