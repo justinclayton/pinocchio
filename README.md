@@ -2,6 +2,8 @@
 
 Automating real behavior testing of your Puppet modules with Cucumber + Vagrant. Also, magic.
 
+[![Code Climate](https://codeclimate.com/github/justinclayton/pinocchio.png)](https://codeclimate.com/github/justinclayton/pinocchio)
+
 ## Installation
 
 Add this line to your application's Gemfile:
