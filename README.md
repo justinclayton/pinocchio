@@ -8,31 +8,44 @@ Automating real behavior testing of your Puppet modules with Cucumber + Vagrant.
 
 Add this line to your application's Gemfile:
 
-    gem 'pinocchio'
+```ruby
+gem 'pinocchio'
+```
 
 And then execute:
 
-    $ bundle
+```bash
+$ bundle
+```
 
 Or install it yourself as:
 
-    $ gem install pinocchio
+```bash
+$ gem install pinocchio
+```
 
 ## Usage
 
 Add this to your module's `Rakefile`:
 
-    require 'pinocchio/rake'
-    
+```ruby
+require 'pinocchio/rake'
+```
+
 And this to your module's `features/support/env.rb`:
 
-	require 'pinocchio/cucumber'
-	
+```ruby
+require 'pinocchio'
+require 'pinocchio/cucumber'
+```
+
 If you will be testing network connections, you will need to specify what ports to expose to your machine in your `env.rb` as well, like this:
 
-	Pinocchio.config do |config|
-	  config.exposed_ports = ['80', '443']
-	end
+```ruby
+Pinocchio.config do |config|
+  config.exposed_ports = ['80', '443']
+end
+```
 
 Look at the provided test puppet module for a complete example of usage.
 
