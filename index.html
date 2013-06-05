@@ -4,7 +4,7 @@
   <head>
     <meta charset='utf-8' />
     <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Pinocchio : Automate behavior testing for Puppet modules using Cucumber + Vagrant." />
+    <meta name="description" content="Pinocchio : Automate behavior testing for Puppet modules using Cucumber, Vagrant, and a little magic." />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
@@ -19,7 +19,7 @@
           <a id="forkme_banner" href="https://github.com/justinclayton/pinocchio">View on GitHub</a>
 
           <h1 id="project_title">Pinocchio</h1>
-          <h2 id="project_tagline">Automate behavior testing for Puppet modules using Cucumber + Vagrant.</h2>
+          <h2 id="project_tagline">Automate behavior testing for Puppet modules using Cucumber, Vagrant, and a little magic.</h2>
 
             <section id="downloads">
               <a class="zip_download_link" href="https://github.com/justinclayton/pinocchio/zipball/master">Download this project as a .zip file</a>
@@ -31,25 +31,27 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h1>
-<a name="pinocchio" class="anchor" href="#pinocchio"><span class="octicon octicon-link"></span></a>Pinocchio</h1>
-
-<p>Automating real behavior testing of your Puppet modules with Cucumber, Vagrant, and a little magic.</p>
+        <div class="highlight"><pre><span class="k">Given </span><span class="nf">a centos</span><span class="s">6</span><span class="nf"> machine</span>
+<span class="k">When </span><span class="nf">I apply the apache module</span>
+<span class="k">Then </span><span class="nf">I should magically be able to connect to a webserver</span>
+</pre></div>
 
 <h2>
-<a name="why-test" class="anchor" href="#why-test"><span class="octicon octicon-link"></span></a>Why Test</h2>
+<a name="why-behavior-tests" class="anchor" href="#why-behavior-tests"><span class="octicon octicon-link"></span></a>Why "Behavior" Tests?</h2>
 
-<p>Because you're writing code, believe it or not.</p>
+<p>Because this has happened to all of us:</p>
+
+<div class="highlight"><pre><span class="c"># puppet agent -t</span>
+...
+Error: /Stage<span class="o">[</span>main<span class="o">]</span>/Apache/Service<span class="o">[</span>httpd<span class="o">]</span>/ensure: change from stopped to running failed: Could not start Service<span class="o">[</span>httpd<span class="o">]</span>: Execution of <span class="s1">'/sbin/service httpd start'</span> returned 1
+</pre></div>
 
 <h3>
-<a name="isnt-this-just-cucumber-puppet-someone-already-wrote-that" class="anchor" href="#isnt-this-just-cucumber-puppet-someone-already-wrote-that"><span class="octicon octicon-link"></span></a>Isn't This Just Cucumber-Puppet? Someone Already Wrote That</h3>
+<a name="but-i-already-have-rspec-puppet-wont-that-catch-these-kinds-of-errors" class="anchor" href="#but-i-already-have-rspec-puppet-wont-that-catch-these-kinds-of-errors"><span class="octicon octicon-link"></span></a>But I Already Have Rspec-Puppet. Won't That Catch These Kinds Of Errors?</h3>
 
-<p>No</p>
+<p>Nope! Puppet doesn't care that your Apache config is listening to the same port twice in two different files, but Apache sure does and will refuse to start.</p>
 
-<h3>
-<a name="but-i-already-have-rspec-puppet" class="anchor" href="#but-i-already-have-rspec-puppet"><span class="octicon octicon-link"></span></a>But I Already Have Rspec-Puppet</h3>
-
-<p>Tim Sharpe did the entire Puppet community a great service by bringing us <code>rspec-puppet</code>. But it only covers one side of the story...</p>
+<p>Tim Sharpe did the entire Puppet community a great service by bringing us <code>rspec-puppet</code>. It has helped usher in what is likely the golden age of sane configuration management. But it only covers one side of the story...</p>
 
 <h2>
 <a name="anatomy-of-a-puppet-run" class="anchor" href="#anatomy-of-a-puppet-run"><span class="octicon octicon-link"></span></a>Anatomy Of A Puppet Run</h2>
@@ -75,6 +77,18 @@
 </ul>
 </li>
 </ol><h2>
+<a name="why-cucumber" class="anchor" href="#why-cucumber"><span class="octicon octicon-link"></span></a>Why Cucumber?</h2>
+
+<p>Because it's very readable, especially for those without a strong development background.</p>
+
+<h3>
+<a name="isnt-this-just-cucumber-puppet-someone-already-wrote-that-dummy" class="anchor" href="#isnt-this-just-cucumber-puppet-someone-already-wrote-that-dummy"><span class="octicon octicon-link"></span></a>Isn't This Just Cucumber-Puppet? Someone Already Wrote That, Dummy</h3>
+
+<p>NO U</p>
+
+<p><code>cucumber-puppet</code>, like <code>rspec-puppet</code>, only tested the catalog compilation phase of the puppet run. With Pinocchio you are testing for the actual final results of applying the module.</p>
+
+<h2>
 <a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
 
 <p>You can't install pinocchio from rubygems yet, but you can still add it into your Gemfile like so:</p>
