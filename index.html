@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Pinocchio : Automate behavior testing for Puppet modules using Cucumber + Vagrant." />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Pinocchio</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/justinclayton/pinocchio">View on GitHub</a>
+
+          <h1 id="project_title">Pinocchio</h1>
+          <h2 id="project_tagline">Automate behavior testing for Puppet modules using Cucumber + Vagrant.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/justinclayton/pinocchio/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/justinclayton/pinocchio/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="pinocchio" class="anchor" href="#pinocchio"><span class="octicon octicon-link"></span></a>Pinocchio</h1>
+
+<p>Automating real behavior testing of your Puppet modules with Cucumber, Vagrant, and a little magic.</p>
+
+<h2>
+<a name="why-test" class="anchor" href="#why-test"><span class="octicon octicon-link"></span></a>Why Test</h2>
+
+<p>Because you're writing code, believe it or not.</p>
+
+<h3>
+<a name="isnt-this-just-cucumber-puppet-someone-already-wrote-that" class="anchor" href="#isnt-this-just-cucumber-puppet-someone-already-wrote-that"><span class="octicon octicon-link"></span></a>Isn't This Just Cucumber-Puppet? Someone Already Wrote That</h3>
+
+<p>No</p>
+
+<h3>
+<a name="but-i-already-have-rspec-puppet" class="anchor" href="#but-i-already-have-rspec-puppet"><span class="octicon octicon-link"></span></a>But I Already Have Rspec-Puppet</h3>
+
+<p>Tim Sharpe did the entire Puppet community a great service by bringing us <code>rspec-puppet</code>. But it only covers one side of the story...</p>
+
+<h2>
+<a name="anatomy-of-a-puppet-run" class="anchor" href="#anatomy-of-a-puppet-run"><span class="octicon octicon-link"></span></a>Anatomy Of A Puppet Run</h2>
+
+<ol>
+<li>Catalog Compile
+
+<ul>
+<li>Executed on master</li>
+<li>Validates syntax</li>
+<li>Performs hiera lookups</li>
+<li>Builds resource dependency graph</li>
+<li>Renders ERB templates</li>
+</ul>
+</li>
+<li>Implementation
+
+<ul>
+<li>Executed on agent</li>
+<li>checks state of each resource</li>
+<li>remediates if necessary</li>
+<li>actually runs provider code</li>
+</ul>
+</li>
+</ol><h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>You can't install pinocchio from rubygems yet, but you can still add it into your Gemfile like so:</p>
+
+<div class="highlight"><pre><span class="n">gem</span> <span class="s1">'pinocchio'</span><span class="p">,</span> <span class="ss">:git</span> <span class="o">=&gt;</span> <span class="s1">'http://github.com/justinclayton/pinocchio.git'</span>
+</pre></div>
+
+<p>And then execute:</p>
+
+<div class="highlight"><pre><span class="nv">$ </span>bundle
+</pre></div>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Add this to your module's <code>Rakefile</code>:</p>
+
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">'pinocchio/rake'</span>
+</pre></div>
+
+<p>And this to your module's <code>features/support/env.rb</code>:</p>
+
+<div class="highlight"><pre><span class="nb">require</span> <span class="s1">'pinocchio'</span>
+<span class="nb">require</span> <span class="s1">'pinocchio/cucumber'</span>
+</pre></div>
+
+<p>If you will be testing network connections, you will need to specify what ports to expose to your machine in your <code>env.rb</code> as well, like this:</p>
+
+<div class="highlight"><pre><span class="no">Pinocchio</span><span class="o">.</span><span class="n">config</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">exposed_ports</span> <span class="o">=</span> <span class="o">[</span><span class="s1">'80'</span><span class="p">,</span> <span class="s1">'443'</span><span class="o">]</span>
+<span class="k">end</span>
+</pre></div>
+
+<p>Look at the provided test puppet module for a complete example of usage.</p>
+
+<h2>
+<a name="assumptions" class="anchor" href="#assumptions"><span class="octicon octicon-link"></span></a>Assumptions</h2>
+
+<p>Pinocchio is a stupid wooden puppet, and therefore makes many assumptions about your workflow:</p>
+
+<ul>
+<li><p>He assumes you already do spec tests using the <code>puppetlabs_spec_helper</code> gem, as he relies on <code>.fixtures.yml</code> to understand your module's dependencies. This may change in the future.</p></li>
+<li><p>He doesn't like sharing, so when he downloads and uses Vagrant boxes, they don't go in <code>$VAGRANT_HOME</code> (aka <code>~/.vagrant.d</code>), but instead in <code>~/.pinocchio/vagrant_home</code>. You can override <code>vagrant_home</code> and many other config elements inside of the <code>Pinocchio.config</code> block.</p></li>
+<li><p>He assumes you like cucumbers. That's why he brought you all these cucumbers. He just wants you to love him!</p></li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Pinocchio maintained by <a href="https://github.com/justinclayton">justinclayton</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
